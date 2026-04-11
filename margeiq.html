@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>MargeIQ — Know Your Real Profit Before You Launch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080a0c;--bg2:#0d1014;--surf:#131619;--surf2:#1a1e24;
+  --b1:rgba(255,255,255,.07);--b2:rgba(255,255,255,.13);
+  --tx:#eeecea;--mu:#6b7480;--mu2:#9aa0aa;
+  --green:#22c55e;--glow:rgba(34,197,94,.18);
+  --orange:#f97316;--oglow:rgba(249,115,22,.14);
+  --red:#ef4444;--blue:#60a5fa;--gold:#f59e0b;
+  --font:'Bricolage Grotesque',-apple-system,BlinkMacSystemFont,sans-serif;
+  --mono:'DM Mono','SF Mono','Fira Code',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:#080a0c;color:#eeecea;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+input[type=number]{-moz-appearance:textfield}
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none}
+.view{display:none}.view.on{display:block}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:0 20px;transition:all .3s;border-bottom:1px solid transparent}
+nav.scr{background:rgba(8,10,12,.92);backdrop-filter:blur(20px);border-bottom-color:var(--b1)}
+.navi{max-width:1080px;margin:0 auto;height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{font-size:1.22rem;font-weight:800;letter-spacing:-.5px;cursor:pointer}
+.logo em{color:var(--green);font-style:normal}
+.nav-links{display:none;list-style:none;gap:24px}
+@media(min-width:700px){.nav-links{display:flex}}
+.nav-links a{font-size:.83rem;font-weight:600;color:var(--mu2);cursor:pointer;transition:color .15s}
+.nav-links a:hover{color:var(--tx)}
+.navr{display:flex;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-family:var(--font);font-weight:800;border:none;cursor:pointer;transition:all .2s;white-space:nowrap;letter-spacing:-.2px}
+.btn-g{background:var(--green);color:#000;font-size:.93rem;padding:13px 26px;border-radius:12px;box-shadow:0 0 28px var(--glow)}
+.btn-g:hover{transform:translateY(-2px);box-shadow:0 0 44px var(--glow)}
+.btn-o{background:transparent;color:var(--tx);font-size:.93rem;padding:12px 22px;border-radius:12px;border:1.5px solid var(--b2)}
+.btn-o:hover{border-color:rgba(255,255,255,.26);background:var(--surf)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--orange));color:#000;font-size:.88rem;padding:12px 22px;border-radius:11px;box-shadow:0 0 18px var(--oglow)}
+.btn-gold:hover{transform:translateY(-2px);opacity:.92}
+.btn-sm{padding:8px 16px;font-size:.8rem}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.full{width:100%}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.tc{text-align:center}
+section{padding:86px 0}
+.eyebrow{display:block;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:11px}
+.stitle{font-size:clamp(1.7rem,3.8vw,2.55rem);font-weight:800;letter-spacing:-.04em;line-height:1.12;margin-bottom:13px}
+.ssub{font-size:.97rem;color:var(--mu2);max-width:530px;margin:0 auto;line-height:1.72}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--b2),transparent)}
+.hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 20px 56px;position:relative;overflow:hidden}
+.hero-glow{position:absolute;top:12%;left:50%;transform:translateX(-50%);width:700px;height:480px;background:radial-gradient(ellipse,rgba(34,197,94,.07),transparent 70%);pointer-events:none}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.22);color:var(--green);font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:5px 13px;border-radius:20px;margin-bottom:20px}
+.hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+.hero h1{font-size:clamp(2rem,5.5vw,3.75rem);font-weight:800;line-height:1.09;letter-spacing:-.045em;max-width:820px;margin-bottom:17px}
+.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--green),#4ade80);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:clamp(.88rem,1.7vw,1.07rem);color:var(--mu2);max-width:530px;margin-bottom:32px;line-height:1.73}
+.hero-btns{display:flex;gap:11px;flex-wrap:wrap;justify-content:center;margin-bottom:14px}
+.hero-note{font-size:.71rem;color:var(--mu);margin-bottom:50px}
+.hero-note b{color:var(--green);font-weight:600}
+.mockup{width:100%;max-width:800px;background:var(--surf);border:1px solid var(--b2);border-radius:16px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.55)}
+.mock-bar{background:var(--bg2);border-bottom:1px solid var(--b1);padding:10px 14px;display:flex;align-items:center;gap:8px}
+.mock-dots{display:flex;gap:5px}
+.mock-dot{width:10px;height:10px;border-radius:50%}
+.mock-dot:nth-child(1){background:#ef4444}.mock-dot:nth-child(2){background:var(--gold)}.mock-dot:nth-child(3){background:var(--green)}
+.mock-url{flex:1;background:var(--surf2);border-radius:5px;padding:4px 12px;font-size:.67rem;color:var(--mu);font-family:var(--mono);text-align:center}
+.mock-body{padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:480px){.mock-body{grid-template-columns:1fr}}
+.mk{background:var(--bg2);border:1px solid var(--b1);border-radius:10px;padding:13px}
+.mk-lb{font-size:.57rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mu);margin-bottom:4px}
+.mk-v{font-family:var(--mono);font-size:1.3rem;font-weight:700}
+.mk-v.g{color:var(--green)}.mk-v.o{color:var(--orange)}.mk-v.b{color:var(--blue)}
+.mock-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.22);color:var(--green);font-size:.63rem;font-weight:700;padding:3px 9px;border-radius:20px;margin-bottom:7px}
+.mock-full{grid-column:1/-1}
+.mock-acts .arow{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--b1);font-size:.7rem}
+.mock-acts .arow:last-child{border-bottom:none}
+.arow-n{color:var(--tx);font-weight:600}
+.arow-g{color:var(--green);font-family:var(--mono);font-weight:700}
+.prob-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:13px;margin-top:50px}
+.pcard{background:var(--surf);border:1px solid var(--b1);border-radius:13px;padding:21px;transition:border-color .2s}
+.pcard:hover{border-color:rgba(239,68,68,.24)}
+.pcard-ic{font-size:1.25rem;margin-bottom:9px;display:block}
+.pcard-t{font-size:.88rem;font-weight:700;margin-bottom:5px}
+.pcard-d{font-size:.77rem;color:var(--mu2);line-height:1.6}
+.sol-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:50px;align-items:center}
+@media(max-width:680px){.sol-grid{grid-template-columns:1fr}}
+.sol-items{display:flex;flex-direction:column;gap:13px}
+.sol-item{display:flex;gap:11px;align-items:flex-start}
+.sol-ck{width:25px;height:25px;border-radius:50%;flex-shrink:0;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.24);display:flex;align-items:center;justify-content:center;font-size:.66rem;color:var(--green);margin-top:2px}
+.sol-t{font-size:.86rem;font-weight:700;margin-bottom:3px}
+.sol-d{font-size:.77rem;color:var(--mu2);line-height:1.6}
+.sol-vis{background:var(--surf);border:1px solid var(--b2);border-radius:15px;padding:22px}
+.kpi-g{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.kpi-c{background:var(--bg2);border-radius:9px;padding:10px 11px}
+.kpi-l{font-size:.56rem;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:var(--mu);margin-bottom:4px}
+.kpi-v{font-family:var(--mono);font-size:1.15rem;font-weight:700}
+.gain-box{margin-top:11px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.14);border-radius:9px;padding:11px}
+.gain-l{font-size:.58rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--green);margin-bottom:4px}
+.gain-v{font-family:var(--mono);font-size:1.35rem;font-weight:700;color:var(--green)}
+.gain-s{font-size:.68rem;color:var(--mu2);margin-top:3px}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(275px,1fr));gap:13px;margin-top:50px}
+.fcard{background:var(--surf);border:1px solid var(--b1);border-radius:15px;padding:24px;transition:all .22s}
+.fcard:hover{border-color:var(--b2);transform:translateY(-2px)}
+.fcard-ic{font-size:1.35rem;margin-bottom:11px;display:block}
+.fcard-t{font-size:.93rem;font-weight:800;margin-bottom:6px;letter-spacing:-.02em}
+.fcard-d{font-size:.77rem;color:var(--mu2);line-height:1.65}
+.pro-badge{display:inline-block;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);color:var(--gold);font-size:.57rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 7px;border-radius:5px;margin-top:9px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));margin-top:54px}
+.step{text-align:center;padding:0 18px}
+.step-n{width:58px;height:58px;border-radius:50%;background:var(--surf);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:1.1rem;font-weight:700;color:var(--green);margin:0 auto 16px;box-shadow:0 0 16px var(--glow)}
+.step-t{font-size:.92rem;font-weight:800;margin-bottom:6px}
+.step-d{font-size:.77rem;color:var(--mu2);line-height:1.65;max-width:190px;margin:0 auto}
+.stats-sec{padding:52px 0;background:var(--bg2)}
+.stats-row{display:flex;flex-wrap:wrap;justify-content:center}
+.stat{text-align:center;padding:14px 30px;flex:1;min-width:110px}
+.stat-v{font-family:var(--mono);font-size:1.95rem;font-weight:700;display:block;margin-bottom:3px}
+.stat-l{font-size:.72rem;color:var(--mu2)}
+.price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(265px,1fr));gap:13px;margin-top:50px;max-width:670px;margin-left:auto;margin-right:auto}
+.price-c{background:var(--surf);border:1px solid var(--b1);border-radius:17px;padding:28px 24px;position:relative}
+.price-c.pop{border-color:rgba(34,197,94,.34);background:linear-gradient(160deg,rgba(34,197,94,.04),var(--surf))}
+.pop-tag{position:absolute;top:13px;right:13px;background:rgba(34,197,94,.13);border:1px solid rgba(34,197,94,.27);color:var(--green);font-size:.58rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 9px;border-radius:20px}
+.plan-lbl{font-size:.66rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu);margin-bottom:9px}
+.plan-price{font-family:var(--mono);font-size:2.7rem;font-weight:700;line-height:1;margin-bottom:3px}
+.plan-per{font-size:.74rem;color:var(--mu2);margin-bottom:20px}
+.plan-feats{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.plan-feats li{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--mu2)}
+.plan-feats li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
+.plan-feats li.dim::before{content:'–';color:var(--mu)}.plan-feats li.dim{color:var(--mu)}
+.faq-list{max-width:650px;margin:50px auto 0}
+.faq-item{border-bottom:1px solid var(--b1)}
+.faq-item:first-child{border-top:1px solid var(--b1)}
+.faq-q{width:100%;background:none;border:none;color:var(--tx);font-family:var(--font);font-size:.9rem;font-weight:700;text-align:left;padding:17px 0;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:color .15s}
+.faq-q:hover{color:var(--green)}
+.faq-ic{width:20px;height:20px;border-radius:50%;border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:.72rem;color:var(--mu2);flex-shrink:0;transition:all .2s}
+.faq-item.open .faq-ic{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.26);color:var(--green);transform:rotate(45deg)}
+.faq-a{font-size:.81rem;color:var(--mu2);line-height:1.75;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s}
+.faq-item.open .faq-a{max-height:250px;padding-bottom:17px}
+.cta-sec{padding:96px 0;text-align:center;position:relative;overflow:hidden}
+.cta-sec::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:380px;background:radial-gradient(ellipse,rgba(34,197,94,.07),transparent 70%);pointer-events:none}
+.cta-sec h2{font-size:clamp(1.75rem,4vw,2.8rem);font-weight:800;letter-spacing:-.04em;margin-bottom:13px}
+.cta-sec p{font-size:.96rem;color:var(--mu2);margin-bottom:32px}
+.cta-btns{display:flex;gap:11px;flex-wrap:wrap;justify-content:center}
+footer{background:var(--bg2);border-top:1px solid var(--b1);padding:34px 20px}
+.foot{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+@media(min-width:580px){.foot{flex-direction:row;justify-content:space-between;text-align:left}}
+.foot-logo{font-size:1.08rem;font-weight:800}
+.foot-logo em{color:var(--green);font-style:normal}
+.foot-links{display:flex;gap:20px;flex-wrap:wrap;justify-content:center}
+.foot-links a{font-size:.76rem;color:var(--mu);cursor:pointer;transition:color .15s}
+.foot-links a:hover{color:var(--mu2)}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+.rv.on{opacity:1;transform:none}
+/* APP */
+.app-wrap{max-width:1120px;margin:0 auto;padding:70px 16px 90px}
+.app-grid{display:grid;grid-template-columns:420px 1fr;gap:16px;align-items:start}
+@media(max-width:860px){.app-grid{grid-template-columns:1fr}}
+.card{background:var(--surf);border:1px solid var(--b1);border-radius:13px;margin-bottom:10px;overflow:hidden}
+.card-hd{padding:11px 15px 10px;border-bottom:1px solid var(--b1);display:flex;align-items:center;gap:9px}
+.card-ico{width:27px;height:27px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.82rem;flex-shrink:0}
+.ico-b{background:rgba(96,165,250,.13)}.ico-o{background:rgba(249,115,22,.13)}.ico-g{background:rgba(34,197,94,.13)}.ico-p{background:rgba(139,92,246,.13)}
+.card-t{font-size:.84rem;font-weight:700}
+.card-s{font-size:.61rem;color:var(--mu);margin-top:1px}
+.cbody{padding:13px 15px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.field{margin-bottom:9px}.field:last-child{margin-bottom:0}
+.fl{font-size:.63rem;font-weight:600;color:var(--mu2);margin-bottom:4px}
+.fw{position:relative}
+.fw input,.fw select{width:100%;background:var(--surf2);border:1.5px solid var(--b2);border-radius:8px;color:var(--tx);font-family:var(--font);font-size:.86rem;font-weight:500;padding:8px 32px 8px 10px;outline:none;transition:border-color .15s,box-shadow .15s;-webkit-appearance:none;appearance:none}
+.fw select{padding-right:10px;cursor:pointer}
+.fw input:focus,.fw select:focus{border-color:rgba(96,165,250,.5);box-shadow:0 0 0 3px rgba(96,165,250,.08)}
+.fu{position:absolute;right:9px;top:50%;transform:translateY(-50%);font-size:.63rem;font-weight:600;color:var(--mu);pointer-events:none}
+.hint-t{font-size:.59rem;color:var(--mu);margin-top:3px}
+.plat-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:11px}
+.pt{flex:1;min-width:52px;padding:6px;background:var(--surf2);border:1.5px solid var(--b1);border-radius:6px;color:var(--mu);font-family:var(--font);font-size:.6rem;font-weight:600;cursor:pointer;text-align:center;transition:all .15s;white-space:nowrap}
+.pt.on{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.27);color:var(--green)}
+.tog-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--b1)}
+.tog-lbl{font-size:.79rem;font-weight:500;color:var(--mu2)}
+.tog{position:relative;width:34px;height:19px;flex-shrink:0}
+.tog input{opacity:0;width:0;height:0}
+.tog-t{position:absolute;inset:0;background:var(--surf2);border:1px solid var(--b2);border-radius:19px;cursor:pointer;transition:.2s}
+.tog-t::after{content:'';position:absolute;width:13px;height:13px;background:var(--mu);border-radius:50%;top:2px;left:2px;transition:.2s}
+.tog input:checked+.tog-t{background:var(--green);border-color:var(--green)}
+.tog input:checked+.tog-t::after{transform:translateX(15px);background:var(--bg)}
+.mkt-sec{border-top:1px solid var(--b1);padding-top:11px;margin-top:3px}
+.mkt-lbl{font-size:.59rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--mu);margin-bottom:8px}
+.mkt-note{font-size:.63rem;color:var(--mu);background:var(--surf2);border-radius:6px;padding:6px 9px;margin-bottom:8px;line-height:1.5}
+.ana-wrap{margin-bottom:10px}
+.ana-btn{width:100%;background:var(--green);color:#000;font-family:var(--font);font-size:.96rem;font-weight:800;padding:13px;border-radius:11px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;box-shadow:0 4px 18px var(--glow);transition:all .2s}
+.ana-btn:hover{transform:translateY(-1px);box-shadow:0 6px 26px var(--glow)}
+.ana-btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none;background:#374151;color:var(--mu2)}
+.uses-info{text-align:center;font-size:.6rem;color:var(--mu);margin-top:5px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sticky-bar{position:fixed;bottom:0;left:0;right:0;z-index:99;padding:10px 16px max(14px,env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg) 65%,transparent);display:none}
+@media(max-width:860px){.sticky-bar{display:block}}
+.res-col{position:sticky;top:70px}
+.empty-st{background:var(--surf);border:2px dashed var(--b2);border-radius:13px;padding:42px 20px;text-align:center}
+.empty-ic{font-size:2.4rem;margin-bottom:11px;opacity:.32}
+.empty-t{font-size:.86rem;font-weight:700;color:var(--mu);margin-bottom:5px}
+.empty-s{font-size:.72rem;color:var(--mu);line-height:1.6}
+#resDiv{display:none}
+.hero-res{background:var(--surf);border:1px solid var(--b1);border-radius:15px;overflow:hidden;margin-bottom:9px}
+.sc-row{padding:15px 15px 0;display:flex;align-items:flex-start;gap:12px}
+.sc-ring{width:78px;height:78px;position:relative;flex-shrink:0}
+.sc-ring svg{width:78px;height:78px;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:var(--surf2);stroke-width:7}
+.ring-f{fill:none;stroke-width:7;stroke-linecap:round;stroke-dasharray:213;stroke-dashoffset:213;transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1)}
+.sc-txt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.sc-n{font-size:1.42rem;font-weight:800;font-family:var(--mono);line-height:1}
+.sc-d{font-size:.5rem;color:var(--mu);font-weight:600}
+.st-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:.7rem;font-weight:700;margin-bottom:5px}
+.verd-t{font-size:.9rem;font-weight:800;line-height:1.2}
+.kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--b1);margin-top:12px}
+.kpi-ce{background:var(--surf);padding:10px 11px;text-align:center}
+.kpi-lb{font-size:.54rem;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:var(--mu);margin-bottom:3px}
+.kpi-vl{font-size:1.03rem;font-weight:800;font-family:var(--mono)}
+.pot-bar{margin:0 13px 11px;padding:8px 11px;border-radius:8px;text-align:center;font-size:.73rem;font-weight:700;display:none}
+.ba-strip{background:var(--surf2);border-top:1px solid var(--b1);padding:9px 15px;display:none;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center}
+.ba-strip.on{display:grid}
+.ba-side{text-align:center}
+.ba-lb{font-size:.54rem;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:var(--mu);margin-bottom:3px}
+.ba-v{font-family:var(--mono);font-size:1.12rem;font-weight:800}
+.pa-card{background:#111317;border:1px solid var(--b1);border-radius:13px;overflow:hidden;margin-bottom:9px}
+.pa-hd{padding:10px 13px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--b1)}
+.pa-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.pa-ttl{font-size:.58rem;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--mu)}
+.pa-list{padding:2px 0}
+.pa-item{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;border-bottom:1px solid var(--b1);gap:9px}
+.pa-item:last-child{border-bottom:none}
+.pa-name{font-size:.78rem;font-weight:700;color:var(--tx)}
+.pa-gain{font-size:.86rem;font-weight:800;color:var(--green);font-family:var(--mono);flex-shrink:0}
+.coll{background:var(--surf);border:1px solid var(--b1);border-radius:13px;overflow:hidden;margin-bottom:8px}
+.coll-btn{width:100%;background:none;border:none;padding:11px 13px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-family:var(--font);color:var(--mu2);gap:9px;transition:color .15s}
+.coll-btn:hover{color:var(--tx)}
+.coll-l{display:flex;align-items:center;gap:7px}
+.coll-ic{font-size:.86rem}
+.coll-t{font-size:.81rem;font-weight:700}
+.coll-arr{font-size:.66rem;color:var(--mu);transition:transform .2s}
+.coll.open .coll-arr{transform:rotate(180deg)}
+.coll-body{display:none;border-top:1px solid var(--b1);padding:12px 13px}
+.coll.open .coll-body{display:block}
+.sim-imp{background:var(--surf2);border-radius:9px;padding:10px 11px;margin-bottom:11px}
+.sim-lb{font-size:.57rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:6px}
+.sim-g3{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.sim-k{text-align:center}
+.sim-kl{font-size:.54rem;color:var(--mu);text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px}
+.sim-kv{font-family:var(--mono);font-size:.9rem;font-weight:800}
+.sl-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.sl-l{font-size:.68rem;color:var(--mu2);flex:1.1}
+.slider{flex:2;-webkit-appearance:none;height:3px;background:var(--surf2);border-radius:3px;outline:none;cursor:pointer}
+.slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--green);cursor:pointer;box-shadow:0 0 0 3px rgba(34,197,94,.18)}
+.sl-v{font-size:.68rem;font-weight:700;color:var(--green);font-family:var(--mono);min-width:38px;text-align:right}
+.sim-apply{width:100%;background:var(--surf2);border:1.5px solid var(--b2);color:var(--mu2);font-family:var(--font);font-size:.73rem;font-weight:600;padding:7px;border-radius:7px;cursor:pointer;margin-top:3px;transition:all .15s}
+.sim-apply:hover{background:rgba(34,197,94,.09);color:var(--green);border-color:rgba(34,197,94,.24)}
+.p3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:11px}
+.p3-c{border-radius:8px;padding:9px 6px;text-align:center;border:1.5px solid}
+.p3-c.R{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.2)}.p3-c.G{background:rgba(34,197,94,.07);border-color:rgba(34,197,94,.2)}.p3-c.B{background:rgba(96,165,250,.07);border-color:rgba(96,165,250,.2)}
+.p3-l{font-size:.52rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:2px;opacity:.6}
+.p3-v{font-family:var(--mono);font-size:.93rem;font-weight:800}
+.p3-c.R .p3-v{color:var(--red)}.p3-c.G .p3-v{color:var(--green)}.p3-c.B .p3-v{color:var(--blue)}
+.p3-s{font-size:.54rem;margin-top:1px;opacity:.5}
+.mr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--b1);font-size:.73rem}
+.mr:last-child{border-bottom:none}
+.mk2{color:var(--mu2);font-weight:500}
+.mv{font-weight:700;font-family:var(--mono)}
+.sc-bars{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:9px 0 11px}
+.sc-bi{text-align:center}
+.sc-btr{height:4px;background:var(--surf2);border-radius:4px;overflow:hidden;margin-bottom:2px}
+.sc-bf{height:100%;border-radius:4px;transition:width .6s}
+.sc-bf.g{background:var(--green)}.sc-bf.o{background:var(--gold)}.sc-bf.r{background:var(--red)}
+.sc-blab{font-size:.49rem;color:var(--mu);font-weight:600}
+.sc-bval{font-size:.58rem;font-weight:700;font-family:var(--mono)}
+.be-box{background:var(--surf2);border-radius:8px;padding:10px;margin:8px 0;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.be-i{text-align:center}
+.be-v{font-size:1.25rem;font-weight:800;font-family:var(--mono);color:var(--blue)}
+.be-l{font-size:.52rem;color:var(--mu);text-transform:uppercase;letter-spacing:.8px;margin-top:2px}
+.sc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.sc-cell{background:var(--surf2);border-radius:8px;padding:9px 7px;text-align:center;border:1px solid var(--b1)}
+.sc-t{font-size:.54rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--mu);margin-bottom:3px}
+.sc-v{font-size:.86rem;font-weight:800;font-family:var(--mono)}
+.sc-u{font-size:.58rem;color:var(--mu);margin-top:2px}
+.prob-r{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.prob-lb{font-size:.74rem;font-weight:600;color:var(--mu2)}
+.prob-pct{font-size:1.65rem;font-weight:800;font-family:var(--mono)}
+.prob-tr{height:7px;background:var(--surf2);border-radius:7px;overflow:hidden}
+.prob-f{height:100%;border-radius:7px;transition:width .7s cubic-bezier(.4,0,.2,1)}
+.prob-s{font-size:.66rem;color:var(--mu);margin-top:5px}
+.goal-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.gk{background:var(--surf2);border-radius:8px;padding:9px 6px;text-align:center}
+.gk-l{font-size:.52rem;color:var(--mu);text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px}
+.gk-v{font-family:var(--mono);font-size:.9rem;font-weight:800;color:#a78bfa}
+.urg{background:linear-gradient(90deg,rgba(245,158,11,.09),rgba(249,115,22,.07));border-bottom:1px solid rgba(245,158,11,.18);padding:7px 20px;display:none;align-items:center;justify-content:space-between;gap:8px;position:sticky;top:58px;z-index:150}
+.urg.on{display:flex}
+.urg-txt{font-size:.69rem;font-weight:600;color:var(--gold)}
+.urg-btn{font-size:.64rem;font-weight:700;color:var(--gold);border:1px solid rgba(245,158,11,.34);background:transparent;padding:4px 10px;border-radius:20px;cursor:pointer;font-family:var(--font);transition:.15s}
+.urg-btn:hover{background:rgba(245,158,11,.1)}
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(10px);z-index:600;align-items:center;justify-content:center;padding:20px}
+.modal-ov.on{display:flex}
+.modal-box{background:var(--surf);border:1px solid var(--b2);border-radius:20px;padding:26px 22px;max-width:335px;width:100%;text-align:center;animation:mIn .25s cubic-bezier(.34,1.56,.64,1)}
+@keyframes mIn{from{opacity:0;transform:scale(.92) translateY(10px)}to{opacity:1;transform:none}}
+.modal-em{font-size:2.2rem;margin-bottom:11px}
+.modal-t{font-size:1.08rem;font-weight:800;margin-bottom:6px}
+.modal-s{font-size:.79rem;color:var(--mu2);line-height:1.6;margin-bottom:17px}
+.modal-sk{font-size:.68rem;color:var(--mu);cursor:pointer;background:none;border:none;font-family:var(--font);margin-top:8px;width:100%;text-decoration:underline}
+.suc-view{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px}
+.suc-card{background:var(--surf);border:1px solid var(--b2);border-radius:22px;padding:46px 32px;max-width:415px;width:100%;text-align:center}
+.suc-em{font-size:3.6rem;display:block;margin-bottom:16px}
+.suc-h{font-size:1.8rem;font-weight:800;margin-bottom:9px;letter-spacing:-.04em}
+.suc-sub{font-size:.9rem;color:var(--mu2);line-height:1.65;margin-bottom:22px}
+.suc-badge{display:inline-block;background:linear-gradient(135deg,var(--gold),var(--orange));color:#000;font-size:.76rem;font-weight:700;padding:5px 15px;border-radius:20px;margin-bottom:24px}
+.suc-perks{background:var(--surf2);border-radius:13px;padding:15px;margin-bottom:24px;text-align:left}
+.suc-perk{display:flex;align-items:center;gap:9px;font-size:.84rem;font-weight:500;color:#d1d5db;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.suc-perk:last-child{border-bottom:none}
+.suc-perk-ic{color:var(--green);flex-shrink:0}
+.suc-note{font-size:.68rem;color:var(--mu);margin-top:11px}
+</style>
+</head>
+<body>
+
+<div class="modal-ov" id="proModal">
+  <div class="modal-box">
+    <div class="modal-em">🚀</div>
+    <div class="modal-t">Unlock full analysis</div>
+    <div class="modal-s" id="mSub">You've used your 2 free analyses. Unlock unlimited access for €9 — one-time payment.</div>
+    <button class="btn btn-gold full" onclick="openCheckout()">✨ Unlock full analysis — €9</button>
+    <button class="modal-sk" onclick="closeModal()">Maybe later</button>
+  </div>
+</div>
+
+<!-- LANDING -->
+<div id="vLanding" class="view on">
+<nav id="navEl">
+  <div class="navi">
+    <div class="logo" onclick="gv('landing')">Marge<em>IQ</em></div>
+    <ul class="nav-links">
+      <li><a onclick="gs('#features')">Features</a></li>
+      <li><a onclick="gs('#pricing')">Pricing</a></li>
+      <li><a onclick="gs('#faq')">FAQ</a></li>
+    </ul>
+    <div class="navr">
+      <button class="btn btn-g btn-sm" onclick="gv('app')">Try it free</button>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-tag">Free profit analyzer for e-commerce</div>
+  <h1>Know if your product is<br><em>actually profitable</em><br>before you launch</h1>
+  <p>MargeIQ analyzes your real margins in seconds — costs, fees, ads — and tells you exactly what to do next. Built for Amazon FBA, Shopify, TikTok Shop, and Etsy sellers.</p>
+  <div class="hero-btns">
+    <button class="btn btn-g" onclick="gv('app')">🔍 Try it free</button>
+    <button class="btn btn-o" onclick="gs('#pricing')">✨ Unlock full analysis</button>
+  </div>
+  <p class="hero-note"><b>No account required</b> · 2 free analyses · takes 30 seconds</p>
+  <div class="mockup rv">
+    <div class="mock-bar">
+      <div class="mock-dots"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div>
+      <div class="mock-url">margeiq.com</div>
+    </div>
+    <div class="mock-body">
+      <div class="mk">
+        <div class="mock-badge">🟢 GO – Profitable</div>
+        <div style="display:flex;align-items:center;gap:9px">
+          <svg width="48" height="48" viewBox="0 0 48 48" style="transform:rotate(-90deg);flex-shrink:0">
+            <circle cx="24" cy="24" r="19" fill="none" stroke="var(--surf2)" stroke-width="5"/>
+            <circle cx="24" cy="24" r="19" fill="none" stroke="var(--green)" stroke-width="5" stroke-linecap="round" stroke-dasharray="119.4" stroke-dashoffset="37"/>
+          </svg>
+          <div>
+            <div style="font-size:.56rem;color:var(--mu);font-weight:700;text-transform:uppercase;margin-bottom:2px">Score</div>
+            <div style="font-family:var(--mono);font-size:1.55rem;font-weight:700;color:var(--green)">74</div>
+          </div>
+        </div>
+      </div>
+      <div class="mk">
+        <div class="mk-lb">Monthly profit</div>
+        <div class="mk-v g">+€291</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:7px">
+          <div><div style="font-size:.54rem;color:var(--mu);text-transform:uppercase;margin-bottom:2px">Margin</div><div style="font-family:var(--mono);font-size:.86rem;font-weight:700;color:var(--orange)">18.2%</div></div>
+          <div><div style="font-size:.54rem;color:var(--mu);text-transform:uppercase;margin-bottom:2px">Max CPA</div><div style="font-family:var(--mono);font-size:.86rem;font-weight:700;color:var(--blue)">€6.43</div></div>
+        </div>
+      </div>
+      <div class="mk mock-full" style="background:#111317">
+        <div style="font-size:.55rem;font-weight:700;text-transform:uppercase;color:rgba(255,255,255,.22);margin-bottom:8px">🔧 Priority actions</div>
+        <div class="mock-acts">
+          <div class="arow"><span class="arow-n">Raise price <span style="color:var(--mu);font-weight:400">→ €49</span></span><span class="arow-g">+€322/mo</span></div>
+          <div class="arow"><span class="arow-n">Negotiate supplier <span style="color:var(--mu);font-weight:400">→ €8</span></span><span class="arow-g">+€209/mo</span></div>
+          <div class="arow"><span class="arow-n">Reduce shipping</span><span class="arow-g">+€60/mo</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section>
+  <div class="wrap tc">
+    <span class="eyebrow">The problem</span>
+    <h2 class="stitle rv">Most sellers don't know their real margins</h2>
+    <p class="ssub rv">You check revenue and think you're doing well. Then reality hits.</p>
+    <div class="prob-grid">
+      <div class="pcard rv"><span class="pcard-ic">💸</span><div class="pcard-t">Hidden fees everywhere</div><div class="pcard-d">Platform fees, FBA costs, return rates, ads — they compound silently and destroy your margins.</div></div>
+      <div class="pcard rv"><span class="pcard-ic">❌</span><div class="pcard-t">Prices set by gut feeling</div><div class="pcard-d">Most sellers pick a price that "feels right" without calculating the real break-even.</div></div>
+      <div class="pcard rv"><span class="pcard-ic">📉</span><div class="pcard-t">Profitable-looking products aren't</div><div class="pcard-d">A product selling well in units can still lose money once all real costs are factored in.</div></div>
+      <div class="pcard rv"><span class="pcard-ic">🎯</span><div class="pcard-t">No clear next step</div><div class="pcard-d">You know something's wrong but don't know where to start. No data, no direction.</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="sol-grid">
+      <div>
+        <span class="eyebrow">The solution</span>
+        <h2 class="stitle rv">Your full profit picture in 30 seconds</h2>
+        <p style="font-size:.86rem;color:var(--mu2);line-height:1.72;margin-bottom:26px" class="rv">MargeIQ scores your product 0–100, reveals your real margin, and gives you specific actions to increase monthly profit.</p>
+        <div class="sol-items">
+          <div class="sol-item rv"><div class="sol-ck">✓</div><div><div class="sol-t">Instant profitability score</div><div class="sol-d">GO / RISKY / NO GO verdict. Know before you invest.</div></div></div>
+          <div class="sol-item rv"><div class="sol-ck">✓</div><div><div class="sol-t">Concrete priority actions</div><div class="sol-d">"Raise price to €49 → +€322/mo" — specific, not vague.</div></div></div>
+          <div class="sol-item rv"><div class="sol-ck">✓</div><div><div class="sol-t">Optimal pricing strategy</div><div class="sol-d">Min, optimal, scaling prices to hit 30–40% margins.</div></div></div>
+          <div class="sol-item rv"><div class="sol-ck">✓</div><div><div class="sol-t">Volume projection</div><div class="sol-d">Pessimistic, realistic, optimistic profit scenarios.</div></div></div>
+        </div>
+      </div>
+      <div class="sol-vis rv">
+        <div style="font-size:.61rem;font-weight:700;text-transform:uppercase;color:var(--mu);margin-bottom:13px">Product analysis</div>
+        <div class="kpi-g">
+          <div class="kpi-c"><div class="kpi-l">Net profit/mo</div><div class="kpi-v" style="color:var(--green)">+€291</div></div>
+          <div class="kpi-c"><div class="kpi-l">Score</div><div class="kpi-v" style="color:var(--green)">74/100</div></div>
+          <div class="kpi-c"><div class="kpi-l">Net margin</div><div class="kpi-v" style="color:var(--orange)">18.2%</div></div>
+          <div class="kpi-c"><div class="kpi-l">Max CPA</div><div class="kpi-v" style="color:var(--blue)">€6.43</div></div>
+        </div>
+        <div class="gain-box"><div class="gain-l">Potential gain</div><div class="gain-v">+€591/month</div><div class="gain-s">If you implement all 3 actions</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="features">
+  <div class="wrap tc">
+    <span class="eyebrow">Features</span>
+    <h2 class="stitle rv">Everything to make the right call</h2>
+    <p class="ssub rv">No spreadsheet. No guesswork. All in one place.</p>
+    <div class="feat-grid">
+      <div class="fcard rv"><span class="fcard-ic">📊</span><div class="fcard-t">Full profit analysis</div><div class="fcard-d">Supplier cost, shipping, fees, VAT, ads — real monthly profit to the cent.</div></div>
+      <div class="fcard rv"><span class="fcard-ic">📐</span><div class="fcard-t">Net margin calculator</div><div class="fcard-d">True net margin after every cost, including fees most sellers forget.</div></div>
+      <div class="fcard rv"><span class="fcard-ic">🎯</span><div class="fcard-t">Max CPA calculator</div><div class="fcard-d">Maximum spend per customer before it destroys your margin.</div></div>
+      <div class="fcard rv"><span class="fcard-ic">🔧</span><div class="fcard-t">Priority actions</div><div class="fcard-d">3 ranked actions with exact monthly gain if you act on each one.</div></div>
+      <div class="fcard rv"><span class="fcard-ic">🎮</span><div class="fcard-t">Smart simulator</div><div class="fcard-d">Slide price, cost, volume. See live impact before changing anything.</div><span class="pro-badge">Pro</span></div>
+      <div class="fcard rv"><span class="fcard-ic">🚀</span><div class="fcard-t">Volume projection</div><div class="fcard-d">Profit at pessimistic, realistic, and optimistic volumes.</div></div>
+      <div class="fcard rv"><span class="fcard-ic">🎯</span><div class="fcard-t">Goal analysis</div><div class="fcard-d">Set monthly target. Get exact sales count and CPA to hit it.</div><span class="pro-badge">Pro</span></div>
+      <div class="fcard rv"><span class="fcard-ic">📋</span><div class="fcard-t">Full breakdown</div><div class="fcard-d">Price ex-VAT, unit cost, fees, marketing per unit, break-even, ROI.</div></div>
+      <div class="fcard rv"><span class="fcard-ic">🌍</span><div class="fcard-t">Multi-platform</div><div class="fcard-d">Amazon FBA, Shopify, TikTok Shop, Etsy — VAT auto-filled by country.</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section style="background:var(--bg2)">
+  <div class="wrap tc">
+    <span class="eyebrow">How it works</span>
+    <h2 class="stitle rv">From inputs to insights in 30 seconds</h2>
+    <div class="steps">
+      <div class="step rv"><div class="step-n">01</div><div class="step-t">Enter your costs</div><div class="step-d">Supplier, shipping, fees, VAT, price, volume. 30 seconds.</div></div>
+      <div class="step rv"><div class="step-n">02</div><div class="step-t">Click Analyze</div><div class="step-d">Margin, CPA, ROI, break-even, score — calculated instantly.</div></div>
+      <div class="step rv"><div class="step-n">03</div><div class="step-t">Get your verdict</div><div class="step-d">GO, RISKY, or NO GO — plus exact actions to boost profit now.</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="stats-sec">
+  <div class="wrap">
+    <div class="stats-row">
+      <div class="stat"><span class="stat-v">8</span><div class="stat-l">Platforms supported</div></div>
+      <div class="stat"><span class="stat-v">30s</span><div class="stat-l">Average analysis time</div></div>
+      <div class="stat"><span class="stat-v">100</span><div class="stat-l">Point scoring system</div></div>
+      <div class="stat"><span class="stat-v">€0</span><div class="stat-l">To get started</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<section id="pricing">
+  <div class="wrap tc">
+    <span class="eyebrow">Pricing</span>
+    <h2 class="stitle rv">Simple. No surprises.</h2>
+    <p class="ssub rv">Start free. Upgrade when you need more.</p>
+    <div class="price-grid">
+      <div class="price-c rv">
+        <div class="plan-lbl">Free</div>
+        <div class="plan-price">€0</div>
+        <div class="plan-per">forever · no account needed</div>
+        <ul class="plan-feats">
+          <li>2 free analyses</li><li>Full profit breakdown</li><li>Score 0–100</li><li>Priority actions</li><li>Volume projection</li>
+          <li class="dim">Smart simulator</li><li class="dim">Goal analysis</li><li class="dim">Unlimited analyses</li>
+        </ul>
+        <button class="btn btn-o full" onclick="gv('app')">Try for free</button>
+      </div>
+      <div class="price-c pop rv">
+        <div class="pop-tag">Most popular</div>
+        <div class="plan-lbl">Pro</div>
+        <div class="plan-price">€9</div>
+        <div class="plan-per">one-time · lifetime access</div>
+        <ul class="plan-feats">
+          <li>Unlimited analyses</li><li>Full profit breakdown</li><li>Score 0–100</li><li>Priority actions</li><li>Volume projection</li><li>Smart simulator</li><li>Goal analysis</li><li>Success probability</li>
+        </ul>
+        <button class="btn btn-gold full" onclick="openCheckout()">✨ Unlock full analysis</button>
+      </div>
+    </div>
+    <p style="margin-top:20px;font-size:.74rem;color:var(--mu)">One-time payment. No subscription. No hidden fees.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="faq" style="background:var(--bg2)">
+  <div class="wrap tc">
+    <span class="eyebrow">FAQ</span>
+    <h2 class="stitle rv">Common questions</h2>
+    <div class="faq-list">
+      <div class="faq-item"><button class="faq-q" onclick="faqT(this)">Who is MargeIQ for?<span class="faq-ic">+</span></button><div class="faq-a">MargeIQ is for e-commerce sellers on Amazon FBA, Shopify, TikTok Shop, Etsy, or any platform where you buy and resell — dropshipping, private label, or wholesale.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="faqT(this)">Do I need Amazon experience?<span class="faq-ic">+</span></button><div class="faq-a">Not at all. Works for any platform, any experience level. Analyze any product in 30 seconds.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="faqT(this)">Can I use it for Shopify or TikTok?<span class="faq-ic">+</span></button><div class="faq-a">Yes. MargeIQ supports Amazon FBA, Shopify, TikTok Shop, and Etsy with platform fees pre-filled. Manual mode works for any other platform.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="faqT(this)">What's in the Pro plan?<span class="faq-ic">+</span></button><div class="faq-a">Unlimited analyses + Smart Simulator + Goal Analysis + Success Probability. One-time €9, lifetime access.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="faqT(this)">Is my data stored?<span class="faq-ic">+</span></button><div class="faq-a">No. Everything runs in your browser. No accounts, no servers, nothing stored.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="faqT(this)">Can I get a refund?<span class="faq-ic">+</span></button><div class="faq-a">Yes. Not satisfied within 7 days? Email us for a full refund — no questions asked.</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="cta-sec">
+  <div class="wrap">
+    <div class="hero-tag" style="display:inline-flex;margin-bottom:18px">Ready to know your real profit?</div>
+    <h2 class="rv">Start analyzing for free — right now</h2>
+    <p class="rv">Takes 30 seconds. No account. No credit card.</p>
+    <div class="cta-btns rv">
+      <button class="btn btn-g" style="font-size:1rem;padding:14px 30px" onclick="gv('app')">🔍 Try MargeIQ free</button>
+      <button class="btn btn-o" onclick="gs('#pricing')">See pricing</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <div>
+      <div class="foot-logo">Marge<em>IQ</em></div>
+      <div style="font-size:.7rem;color:var(--mu);margin-top:5px">© 2026 MargeIQ. All rights reserved.</div>
+    </div>
+    <div class="foot-links">
+      <a href="mailto:contact@margeiq.com">Contact</a>
+      <a onclick="gv('app')">App</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+  </div>
+</footer>
+</div>
+
+<!-- APP -->
+<div id="vApp" class="view">
+<nav style="position:sticky;top:0;z-index:200;background:rgba(8,10,12,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--b1)">
+  <div class="navi">
+    <div class="logo" onclick="gv('landing')">Marge<em>IQ</em></div>
+    <div class="navr"><button class="btn btn-gold btn-sm" onclick="openCheckout()" id="proBtn">✨ Unlock full analysis</button></div>
+  </div>
+</nav>
+<div class="urg" id="urgBar">
+  <span class="urg-txt" id="urgTxt">⚡ 2 free analyses left</span>
+  <button class="urg-btn" onclick="openCheckout()">✨ Unlock all →</button>
+</div>
+<div class="app-wrap">
+  <div class="app-grid">
+    <div>
+      <div class="card">
+        <div class="card-hd"><div class="card-ico ico-b">📦</div><div><div class="card-t">Unit economics</div><div class="card-s">From supplier to sale</div></div></div>
+        <div class="cbody">
+          <div class="fgrid">
+            <div class="field"><div class="fl">Supplier cost/unit</div><div class="fw"><input type="number" id="cost" value="12" min="0" step="0.01"><span class="fu">€</span></div><div class="hint-t">💡 Target &lt;40% of price</div></div>
+            <div class="field"><div class="fl">Customization</div><div class="fw"><input type="number" id="custom" value="0" min="0" step="0.01"><span class="fu">€</span></div></div>
+            <div class="field"><div class="fl">Shipping</div><div class="fw"><input type="number" id="shipping" value="3" min="0" step="0.01"><span class="fu">€</span></div><div class="hint-t">💡 Target &lt;15% of cost</div></div>
+            <div class="field"><div class="fl">Import duties</div><div class="fw"><input type="number" id="duties" value="0" min="0" step="0.1"><span class="fu">%</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hd"><div class="card-ico ico-o">🏪</div><div><div class="card-t">Platform</div><div class="card-s">Fees and advertising</div></div></div>
+        <div class="cbody">
+          <div class="plat-tabs">
+            <button class="pt on" onclick="setPlat('amazon',this)">Amazon FBA</button>
+            <button class="pt" onclick="setPlat('shopify',this)">Shopify</button>
+            <button class="pt" onclick="setPlat('tiktok',this)">TikTok</button>
+            <button class="pt" onclick="setPlat('etsy',this)">Etsy</button>
+            <button class="pt" onclick="setPlat('manual',this)">Manual</button>
+          </div>
+          <div class="fgrid">
+            <div class="field"><div class="fl">Platform fee</div><div class="fw"><input type="number" id="platFee" value="15" min="0" step="0.1"><span class="fu">%</span></div></div>
+            <div class="field"><div class="fl">Fixed fee/unit</div><div class="fw"><input type="number" id="flatFee" value="3.50" min="0" step="0.01"><span class="fu">€</span></div></div>
+          </div>
+          <div class="tog-row"><span class="tog-lbl">Include returns</span><label class="tog"><input type="checkbox" id="returnsOn" onchange="document.getElementById('retF').style.display=this.checked?'block':'none'"><span class="tog-t"></span></label></div>
+          <div id="retF" style="display:none;margin-top:9px"><div class="field"><div class="fl">Return rate</div><div class="fw"><input type="number" id="returnRate" value="5" min="0" max="100"><span class="fu">%</span></div></div></div>
+          <div class="mkt-sec">
+            <div class="mkt-lbl">Advertising</div>
+            <div id="azAds"><div class="mkt-note">Amazon 2026: avg CPC ~€1.18 · ACoS target 25%</div><div class="fgrid"><div class="field"><div class="fl">Sponsored Products</div><div class="fw"><input type="number" id="azPPC" value="200" min="0" step="10"><span class="fu">€</span></div></div><div class="field"><div class="fl">ACoS target</div><div class="fw"><input type="number" id="azAcos" value="25" min="0" max="100"><span class="fu">%</span></div></div></div></div>
+            <div id="shAds" style="display:none"><div class="mkt-note">Meta/Google min €300/mo</div><div class="fgrid"><div class="field"><div class="fl">Meta/Google Ads</div><div class="fw"><input type="number" id="shAdsV" value="300" min="0" step="10"><span class="fu">€</span></div></div><div class="field"><div class="fl">Klaviyo/Email</div><div class="fw"><input type="number" id="shKlav" value="20" min="0" step="5"><span class="fu">€</span></div></div></div></div>
+            <div id="tkAds" style="display:none"><div class="mkt-note">TikTok: 5-8% commission</div><div class="fgrid"><div class="field"><div class="fl">TikTok Ads</div><div class="fw"><input type="number" id="tkAdsV" value="200" min="0" step="10"><span class="fu">€</span></div></div><div class="field"><div class="fl">Creator fee</div><div class="fw"><input type="number" id="tkCr" value="0" min="0" step="50"><span class="fu">€</span></div></div></div></div>
+            <div id="gnAds" style="display:none"><div class="fgrid"><div class="field"><div class="fl">Ad budget</div><div class="fw"><input type="number" id="gnAdsV" value="100" min="0" step="10"><span class="fu">€</span></div></div><div class="field"><div class="fl">Tools</div><div class="fw"><input type="number" id="gnTools" value="30" min="0" step="5"><span class="fu">€</span></div></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hd"><div class="card-ico ico-g">💰</div><div><div class="card-t">Selling price</div><div class="card-s">Price, VAT & volume</div></div></div>
+        <div class="cbody">
+          <div class="fgrid">
+            <div class="field"><div class="fl">Country</div><div class="fw"><select id="vatCountry" onchange="setVat()"><option value="20">🇫🇷 France (20%)</option><option value="19">🇩🇪 Germany (19%)</option><option value="22">🇮🇹 Italy (22%)</option><option value="21">🇪🇸 Spain (21%)</option><option value="0">🇺🇸 USA (0%)</option><option value="20">🇬🇧 UK (20%)</option></select></div></div>
+            <div class="field"><div class="fl">VAT rate</div><div class="fw"><input type="number" id="vat" value="20" min="0" max="100" step="0.5"><span class="fu">%</span></div></div>
+            <div class="field"><div class="fl">Selling price (incl. VAT)</div><div class="fw"><input type="number" id="price" value="39.99" min="0" step="0.01"><span class="fu">€</span></div><div class="hint-t">💡 Aim for 30%+ margin</div></div>
+            <div class="field"><div class="fl">Monthly volume</div><div class="fw"><input type="number" id="volume" value="50" min="1"><span class="fu">units</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hd"><div class="card-ico ico-p">🎯</div><div><div class="card-t">Monthly goal</div><div class="card-s">We calculate the path</div></div></div>
+        <div class="cbody"><div class="field"><div class="fl">Target monthly profit</div><div class="fw"><input type="number" id="goal" value="1000" min="0" step="100"><span class="fu">€</span></div></div></div>
+      </div>
+      <div class="ana-wrap">
+        <button class="ana-btn" id="anaBtn" onclick="doAnalyze()">🔍 Analyze product</button>
+        <div class="uses-info" id="usesInfo"></div>
+      </div>
+    </div>
+    <div class="res-col">
+      <div class="empty-st" id="emptySt"><div class="empty-ic">📊</div><div class="empty-t">Results will appear here</div><div class="empty-s">Fill in your product details and click Analyze</div></div>
+      <div id="resDiv">
+        <div class="hero-res">
+          <div class="sc-row">
+            <div class="sc-ring">
+              <svg viewBox="0 0 78 78"><circle class="ring-bg" cx="39" cy="39" r="33"/><circle class="ring-f" id="ringEl" cx="39" cy="39" r="33"/></svg>
+              <div class="sc-txt"><span class="sc-n" id="scN">—</span><span class="sc-d">/100</span></div>
+            </div>
+            <div style="flex:1"><div class="st-badge" id="stBadge"></div><div class="verd-t" id="verdTxt"></div></div>
+          </div>
+          <div class="kpi-row">
+            <div class="kpi-ce"><div class="kpi-lb">Profit/mo</div><div class="kpi-vl" id="kProfit">—</div></div>
+            <div class="kpi-ce"><div class="kpi-lb">Net margin</div><div class="kpi-vl" id="kMargin">—</div></div>
+            <div class="kpi-ce"><div class="kpi-lb">Max CPA</div><div class="kpi-vl" style="color:var(--blue)" id="kCpa">—</div></div>
+          </div>
+          <div class="pot-bar" id="potBar"></div>
+          <div class="ba-strip" id="baStrip">
+            <div class="ba-side"><div class="ba-lb">Current</div><div class="ba-v" style="color:var(--red)" id="baBef">—</div></div>
+            <div style="color:var(--mu);font-size:.85rem">→</div>
+            <div class="ba-side"><div class="ba-lb">Optimized</div><div class="ba-v" style="color:var(--green)" id="baAft">—</div></div>
+          </div>
+        </div>
+        <div class="pa-card"><div class="pa-hd"><div class="pa-dot"></div><div class="pa-ttl">Priority actions</div></div><div class="pa-list" id="paList"></div></div>
+        <div class="coll" id="simCard">
+          <button class="coll-btn" onclick="tColl('simCard')"><div class="coll-l"><span class="coll-ic">🎮</span><span class="coll-t">Smart simulator</span></div><span class="coll-arr">▼</span></button>
+          <div class="coll-body">
+            <div class="sim-imp"><div class="sim-lb">⚡ Live impact</div><div class="sim-g3"><div class="sim-k"><div class="sim-kl">Profit</div><div class="sim-kv" id="sP">—</div></div><div class="sim-k"><div class="sim-kl">Margin</div><div class="sim-kv" id="sM">—</div></div><div class="sim-k"><div class="sim-kl">Score</div><div class="sim-kv" id="sS">—</div></div></div></div>
+            <div class="sl-row"><span class="sl-l">± Price</span><input type="range" class="slider" id="slP" min="-20" max="30" value="0" step="0.5" oninput="simCalc()"><span class="sl-v" id="slPV">+0€</span></div>
+            <div class="sl-row"><span class="sl-l">± Cost</span><input type="range" class="slider" id="slC" min="-10" max="20" value="0" step="0.5" oninput="simCalc()"><span class="sl-v" id="slCV">+0€</span></div>
+            <div class="sl-row"><span class="sl-l">± Volume</span><input type="range" class="slider" id="slV" min="-50" max="100" value="0" step="5" oninput="simCalc()"><span class="sl-v" id="slVV">+0%</span></div>
+            <div class="sl-row"><span class="sl-l">± Ads</span><input type="range" class="slider" id="slA" min="-100" max="300" value="0" step="10" oninput="simCalc()"><span class="sl-v" id="slAV">+0€</span></div>
+            <button class="sim-apply" onclick="applySimValues()">Apply these values</button>
+            <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--b1)">
+              <div style="font-size:.68rem;font-weight:700;color:var(--mu2);margin-bottom:8px">💡 Optimal prices</div>
+              <div class="p3"><div class="p3-c R"><div class="p3-l">Min</div><div class="p3-v" id="pMin">—</div><div class="p3-s">break-even</div></div><div class="p3-c G"><div class="p3-l">✨ Opt</div><div class="p3-v" id="pOpt">—</div><div class="p3-s">30% margin</div></div><div class="p3-c B"><div class="p3-l">🚀 Scale</div><div class="p3-v" id="pScl">—</div><div class="p3-s">40% margin</div></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="coll" id="goalCard" style="display:none">
+          <button class="coll-btn" onclick="tColl('goalCard')"><div class="coll-l"><span class="coll-ic">🎯</span><span class="coll-t">Goal analysis</span></div><span class="coll-arr">▼</span></button>
+          <div class="coll-body"><div class="goal-kpis"><div class="gk"><div class="gk-l">Target</div><div class="gk-v" id="gTgt">—</div></div><div class="gk"><div class="gk-l">Sales needed</div><div class="gk-v" id="gSal">—</div></div><div class="gk"><div class="gk-l">Max CPA</div><div class="gk-v" id="gCpa">—</div></div></div></div>
+        </div>
+        <div class="coll"><button class="coll-btn" onclick="tColl(this.closest('.coll'))"><div class="coll-l"><span class="coll-ic">🚀</span><span class="coll-t">Volume projection</span></div><span class="coll-arr">▼</span></button><div class="coll-body"><div class="sc-grid" id="scGrid"></div></div></div>
+        <div class="coll"><button class="coll-btn" onclick="tColl(this.closest('.coll'))"><div class="coll-l"><span class="coll-ic">📊</span><span class="coll-t">Success probability</span></div><span class="coll-arr">▼</span></button><div class="coll-body"><div class="prob-r"><span class="prob-lb">Probability</span><span class="prob-pct" id="probPct">—</span></div><div class="prob-tr"><div class="prob-f" id="probFil" style="width:0%"></div></div><div class="prob-s" id="probSub"></div></div></div>
+        <div class="coll"><button class="coll-btn" onclick="tColl(this.closest('.coll'))"><div class="coll-l"><span class="coll-ic">📋</span><span class="coll-t">Full breakdown</span></div><span class="coll-arr">▼</span></button>
+          <div class="coll-body">
+            <div class="sc-bars" id="scBars"></div>
+            <div class="mr"><span class="mk2">Price excl. VAT</span><span class="mv" id="bPHT">—</span></div>
+            <div class="mr"><span class="mk2">Total cost/unit</span><span class="mv" id="bTC">—</span></div>
+            <div class="mr"><span class="mk2">Platform fees/unit</span><span class="mv" id="bPF">—</span></div>
+            <div class="mr"><span class="mk2">Marketing/unit</span><span class="mv" style="color:var(--orange)" id="bMU">—</span></div>
+            <div class="mr"><span class="mk2">Net margin/unit</span><span class="mv" id="bNM">—</span></div>
+            <div class="be-box"><div class="be-i"><div class="be-v" id="beU">—</div><div class="be-l">Units to break even</div></div><div class="be-i"><div class="be-v" id="beR">—</div><div class="be-l">Revenue needed</div></div></div>
+            <div class="mr"><span class="mk2">Monthly revenue</span><span class="mv" style="color:var(--green)" id="bRev">—</span></div>
+            <div class="mr"><span class="mk2">Total marketing</span><span class="mv" style="color:var(--orange)" id="bMkt">—</span></div>
+            <div class="mr"><span class="mk2">Net monthly profit</span><span class="mv" id="bPro">—</span></div>
+            <div class="mr"><span class="mk2">ROI</span><span class="mv" id="bROI">—</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="sticky-bar"><button class="ana-btn" id="stickyBtn" onclick="doAnalyze()">🔍 Analyze product</button></div>
+</div>
+
+<!-- SUCCESS -->
+<div id="vSuccess" class="view">
+  <div class="suc-view">
+    <div class="suc-card">
+      <span class="suc-em">🎉</span>
+      <h1 class="suc-h">You're now Pro!</h1>
+      <p class="suc-sub">Payment confirmed. Full access is unlocked and ready to use.</p>
+      <div class="suc-badge">✦ MargeIQ Pro — Lifetime access</div>
+      <div class="suc-perks">
+        <div class="suc-perk"><span class="suc-perk-ic">✓</span> Unlimited analyses</div>
+        <div class="suc-perk"><span class="suc-perk-ic">✓</span> Smart simulator</div>
+        <div class="suc-perk"><span class="suc-perk-ic">✓</span> Goal analysis</div>
+        <div class="suc-perk"><span class="suc-perk-ic">✓</span> Volume projections</div>
+        <div class="suc-perk"><span class="suc-perk-ic">✓</span> No restrictions, ever</div>
+      </div>
+      <button class="btn btn-g full" style="font-size:.98rem;padding:14px" onclick="gv('app')">→ Start analyzing now</button>
+      <p class="suc-note">No rush — click when you're ready.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+function gv(v){document.querySelectorAll('.view').forEach(el=>el.classList.remove('on'));document.getElementById('v'+v.charAt(0).toUpperCase()+v.slice(1)).classList.add('on');window.scrollTo(0,0);if(v==='app')refreshUI();if(v==='landing')initRv();}
+function gs(sel){const el=document.querySelector(sel);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
+window.addEventListener('scroll',()=>{document.getElementById('navEl')?.classList.toggle('scr',window.scrollY>20);},{passive:true});
+function faqT(btn){const item=btn.closest('.faq-item'),open=item.classList.contains('open');document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));if(!open)item.classList.add('open');}
+function initRv(){const ob=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');ob.unobserve(e.target);}});},{threshold:.1,rootMargin:'0px 0px -40px 0px'});document.querySelectorAll('#vLanding .rv').forEach(el=>ob.observe(el));}
+document.addEventListener('DOMContentLoaded',initRv);
+const MAX_FREE=2;
+function getN(){return Math.max(parseInt(localStorage.getItem('_miq_uses')||'0',10),parseInt(sessionStorage.getItem('_miq_uses')||'0',10));}
+function incN(){const n=getN()+1;localStorage.setItem('_miq_uses',n);sessionStorage.setItem('_miq_uses',n);}
+function isPro(){return localStorage.getItem('isPro')==='true';}
+function canDo(){return isPro()||getN()<MAX_FREE;}
+function refreshUI(){
+  const paid=isPro(),used=getN(),left=Math.max(0,MAX_FREE-used),blocked=!paid&&used>=MAX_FREE;
+  const btn=document.getElementById('anaBtn'),sb=document.getElementById('stickyBtn'),ui=document.getElementById('usesInfo'),bar=document.getElementById('urgBar'),urt=document.getElementById('urgTxt'),pb=document.getElementById('proBtn');
+  if(paid){if(bar)bar.classList.remove('on');if(pb)pb.style.display='none';if(ui)ui.textContent='✦ Pro — unlimited analyses';[btn,sb].forEach(b=>{if(!b)return;b.disabled=false;b.style.cssText='';b.innerHTML='🔍 Analyze product';});}
+  else if(blocked){[btn,sb].forEach(b=>{if(!b)return;b.disabled=true;b.innerHTML='⛔ Free limit reached';});if(ui)ui.textContent='';if(bar){bar.classList.add('on');if(urt)urt.textContent='⛔ Free limit reached';}}
+  else{[btn,sb].forEach(b=>{if(!b)return;b.disabled=false;b.style.cssText='';b.innerHTML='🔍 Analyze product';});const txt=left===MAX_FREE?'':`⚡ ${left} free ${left===1?'analysis':'analyses'} left`;if(ui)ui.textContent=txt;if(bar){bar.classList.add('on');if(urt)urt.textContent=txt||'⚡ 2 free analyses left';}}
+}
+function showModal(){const s=document.getElementById('mSub');if(s){const u=getN();s.textContent=`You've used your ${u} free ${u===1?'analysis':'analyses'}. Unlock unlimited access for €9 — one-time payment.`;}document.getElementById('proModal').classList.add('on');}
+function closeModal(){document.getElementById('proModal').classList.remove('on');}
+document.getElementById('proModal').addEventListener('click',e=>{if(e.target===document.getElementById('proModal'))closeModal();});
+function openCheckout(){
+  // TODO: Replace with your Lemon Squeezy checkout URL
+  alert('Configure your payment link in openCheckout()');
+}
+const PLATS={amazon:{fee:15,flat:3.5},shopify:{fee:2.9,flat:0.3},tiktok:{fee:6,flat:0},etsy:{fee:6.5,flat:0.2},manual:{fee:0,flat:0}};
+let curP='amazon';
+function setPlat(p,btn){curP=p;document.querySelectorAll('.pt').forEach(b=>b.classList.remove('on'));if(btn)btn.classList.add('on');const c=PLATS[p];document.getElementById('platFee').value=c.fee;document.getElementById('flatFee').value=c.flat;['azAds','shAds','tkAds','gnAds'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById({amazon:'azAds',shopify:'shAds',tiktok:'tkAds',etsy:'gnAds',manual:'gnAds'}[p]).style.display='block';}
+function setVat(){document.getElementById('vat').value=document.getElementById('vatCountry').value;}
+function getMkt(){if(curP==='amazon')return +document.getElementById('azPPC').value||0;if(curP==='shopify')return(+document.getElementById('shAdsV').value||0)+(+document.getElementById('shKlav').value||0);if(curP==='tiktok')return(+document.getElementById('tkAdsV').value||0)+(+document.getElementById('tkCr').value||0);return(+document.getElementById('gnAdsV').value||0)+(+document.getElementById('gnTools').value||0);}
+let BR=null;
+function calc(ov={}){
+  const cost=+(ov.cost!==undefined?ov.cost:document.getElementById('cost').value)||0,custom=+document.getElementById('custom').value||0,ship=+(ov.ship!==undefined?ov.ship:document.getElementById('shipping').value)||0,duty=+document.getElementById('duties').value||0,pf=+document.getElementById('platFee').value||0,ff=+document.getElementById('flatFee').value||0,retOn=document.getElementById('returnsOn').checked,retR=+document.getElementById('returnRate')?.value||0,vat=+document.getElementById('vat').value||0,price=+(ov.price!==undefined?ov.price:document.getElementById('price').value)||0,vol=Math.max(1,+(ov.vol!==undefined?ov.vol:document.getElementById('volume').value)||1),mktB=ov.mktB||0,mkt=getMkt()+mktB,mpu=mkt/vol,pHT=price/(1+vat/100),da=cost*(duty/100),tc=cost+custom+ship+da,pfa=pHT*(pf/100)+ff,rc=retOn?tc*(retR/100):0,gr=pHT-tc-pfa-rc,nu=gr-mpu,mp=pHT>0?(nu/pHT)*100:0,rev=pHT*vol,profit=nu*vol,roi=(tc*vol)>0?(profit/(tc*vol))*100:0,be=gr>0?Math.ceil(mkt/gr):Infinity,beR=isFinite(be)?be*pHT:Infinity,sp=cost>0?(ship/cost)*100:0,ap=rev>0?(mkt/rev)*100:0,fc=tc+ff+rc,p2=pf/100,tv=vat/100,oP=t=>{const m=t/100;return((fc+mpu)/(1-p2-m))*(1+tv);},sc=score({mp,sp,ap,duty,pfa,pHT,nu,mpu});
+  return{cost,ship,custom,duty,pf,ff,vat,price,vol,mkt,mpu,pHT,tc,pfa,rc,gr,nu,mp,rev,profit,roi,be,beR,sp,ap,pMin:oP(1),pOpt:oP(30),pScl:oP(40),sc};
+}
+function score(d){let ms=40,ss=20,as=20,ps=10,cs=10;if(d.mp<0)ms=0;else if(d.mp<10)ms=8;else if(d.mp<20)ms=20;else if(d.mp<30)ms=30;if(d.sp>30)ss=4;else if(d.sp>15)ss=12;if(d.mpu>d.nu&&d.nu>0)as=0;else if(d.ap>30)as=6;else if(d.ap>20)as=12;const pp=d.pHT>0?(d.pfa/d.pHT)*100:0;if(pp>20)ps=4;else if(pp>15)ps=7;if(d.duty>15)cs=3;else if(d.duty>8)cs=7;return Math.max(0,Math.min(100,ms+ss+as+ps+cs));}
+const VM={85:'great',70:'good',55:'ok',40:'risky',20:'bad',0:'danger'};
+function getVK(s){for(const[k,v]of Object.entries(VM).sort((a,b)=>b[0]-a[0])){if(s>=+k)return v;}return'danger';}
+function getSt(s){return s>=55?'go':s>=35?'risky':'nogo';}
+const VERD={great:'🚀 Highly profitable',good:'✅ Solid product',ok:'⚡ Profitable but fragile',risky:'⚠️ Needs optimization',bad:'🚨 Not viable yet',danger:'💀 Stop — losing money'};
+const ST_T={go:'🟢 GO – Profitable',risky:'🟠 RISKY – Needs optimization',nogo:'🔴 NO GO – Not viable'};
+const ST_C={go:{bg:'rgba(34,197,94,.1)',bd:'rgba(34,197,94,.24)',c:'#22c55e'},risky:{bg:'rgba(249,115,22,.1)',bd:'rgba(249,115,22,.24)',c:'#f97316'},nogo:{bg:'rgba(239,68,68,.1)',bd:'rgba(239,68,68,.24)',c:'#ef4444'}};
+const PSUB={great:'Strong fundamentals. Ready to scale.',good:'Solid. Focus on volume growth.',ok:'Viable but fragile. Optimize price or costs.',risky:'Risky. Act on priority actions now.',bad:'Not viable. Renegotiate costs urgently.',danger:'Stop ads. Fix fundamentals first.'};
+const fe=n=>n.toFixed(2)+'€',fs=n=>(n>=0?'+':'')+n.toFixed(0)+'€';
+function buildPA(d){const acts=[],sfx='/mo';if(d.pOpt>d.price+0.5){const g=Math.max(0,calc({price:d.pOpt}).profit-d.profit);acts.push({n:'Raise price',t:Math.round(d.pOpt)+'€',g:g>5?'+'+Math.round(g)+'€'+sfx:null});}const tc2=Math.max(0,(d.pHT*(1-d.pf/100-0.30)-d.ff-d.mpu));if(tc2>0&&tc2<d.cost){const g=(d.cost-tc2)*d.vol;acts.push({n:'Negotiate supplier',t:Math.round(tc2)+'€',g:g>5?'+'+Math.round(g)+'€'+sfx:null});}if(d.sp>15){const e=Math.max(0,(d.sp-15)/100*d.cost),g=e*d.vol;acts.push({n:'Reduce shipping',t:null,g:g>5?'+'+Math.round(g)+'€'+sfx:null});}if(acts.length<2&&isFinite(d.be))acts.push({n:'Increase volume',t:'Target '+d.be+' units/mo',g:null});return acts.slice(0,3);}
+function render(d){
+  const sc=d.sc,vk=getVK(sc),st=getSt(sc),cl=sc>=70?'var(--green)':sc>=50?'var(--orange)':'var(--red)';
+  const circ=2*Math.PI*33,off=circ-(sc/100)*circ,ri=document.getElementById('ringEl');ri.style.stroke=cl;ri.style.strokeDashoffset=off;
+  const sn=document.getElementById('scN');sn.textContent=sc;sn.style.color=cl;
+  const sb=document.getElementById('stBadge'),sco=ST_C[st];sb.textContent=ST_T[st];sb.style.background=sco.bg;sb.style.border='1px solid '+sco.bd;sb.style.color=sco.c;
+  document.getElementById('verdTxt').textContent=VERD[vk];
+  const kp=document.getElementById('kProfit');kp.textContent=fs(d.profit);kp.style.color=d.profit>=0?'var(--green)':'var(--red)';
+  const km=document.getElementById('kMargin');km.textContent=d.mp.toFixed(1)+'%';km.style.color=d.mp>=20?'var(--green)':d.mp>=10?'var(--orange)':'var(--red)';
+  document.getElementById('kCpa').textContent='€'+(d.pHT*(d.mp/100)).toFixed(2);
+  const op=calc({price:d.pOpt}).profit,gn=Math.max(0,op-d.profit),pb=document.getElementById('potBar');
+  if(gn>5){pb.style.display='block';pb.style.background=sco.bg;pb.style.border='1px solid '+sco.bd;pb.style.color=sco.c;pb.textContent='+'+Math.round(gn)+'€/month potential';}else pb.style.display='none';
+  const ba=document.getElementById('baStrip');if(gn>5){ba.classList.add('on');document.getElementById('baBef').textContent=fs(d.profit);document.getElementById('baAft').textContent=fs(op);}else ba.classList.remove('on');
+  document.getElementById('paList').innerHTML=buildPA(d).map(p=>`<div class="pa-item"><div style="flex:1"><div class="pa-name">${p.n}${p.t?` <span style="color:var(--mu);font-weight:400">${p.t}</span>`:''}</div></div>${p.g?`<div class="pa-gain">${p.g}</div>`:''}</div>`).join('');
+  [document.getElementById('sP'),document.getElementById('sM'),document.getElementById('sS')].forEach(el=>{if(el)el.style.color=cl;});
+  document.getElementById('sP').textContent=fs(d.profit);document.getElementById('sM').textContent=d.mp.toFixed(1)+'%';document.getElementById('sS').textContent=sc+'/100';
+  document.getElementById('pMin').textContent=d.pMin.toFixed(2)+'€';document.getElementById('pOpt').textContent=d.pOpt.toFixed(2)+'€';document.getElementById('pScl').textContent=d.pScl.toFixed(2)+'€';
+  const gp=+document.getElementById('goal').value||0,gc=document.getElementById('goalCard');
+  if(gp>0&&d.nu>0){gc.style.display='block';document.getElementById('gTgt').textContent='€'+gp;document.getElementById('gSal').textContent=Math.ceil(gp/d.nu);document.getElementById('gCpa').textContent='€'+(d.pHT*(d.mp/100)).toFixed(2);}else gc.style.display='none';
+  const vs=[Math.max(1,Math.round(d.vol*.5)),d.vol,Math.round(d.vol*2)];
+  document.getElementById('scGrid').innerHTML=vs.map((v,i)=>{const p=d.nu*v,c=['var(--mu)','var(--green)','var(--blue)'][i];return`<div class="sc-cell"><div class="sc-t">${['Pessimistic','Realistic','Optimistic'][i]}</div><div class="sc-v" style="color:${p>=0?c:'var(--red)'}">${fs(p)}</div><div class="sc-u">${v} units</div></div>`;}).join('');
+  const prob=Math.max(0,Math.min(100,Math.round(sc+(d.mp>=30?10:0)+(d.sp<=15?5:0)+(d.ap<=20?5:0))));
+  document.getElementById('probPct').textContent=prob+'%';document.getElementById('probPct').style.color=cl;document.getElementById('probFil').style.width=prob+'%';document.getElementById('probFil').style.background=cl;document.getElementById('probSub').textContent=PSUB[vk];
+  const bars=[{l:'Margin',s:d.mp>=30?40:d.mp>=20?35:d.mp>=10?20:8,m:40},{l:'Shipping',s:d.sp<=15?20:d.sp<=25?14:6,m:20},{l:'Ads',s:d.ap<=15?20:d.ap<=25?14:6,m:20},{l:'Fees',s:10,m:10},{l:'Duties',s:d.duty<=5?10:d.duty<=15?7:3,m:10}];
+  document.getElementById('scBars').innerHTML=bars.map(b=>{const p=(b.s/b.m)*100;return`<div class="sc-bi"><div class="sc-btr"><div class="sc-bf ${p>=80?'g':p>=50?'o':'r'}" style="width:${p}%"></div></div><div class="sc-blab">${b.l}</div><div class="sc-bval">${b.s}/${b.m}</div></div>`;}).join('');
+  document.getElementById('bPHT').textContent=fe(d.pHT);document.getElementById('bTC').textContent=fe(d.tc);document.getElementById('bPF').textContent=fe(d.pfa);document.getElementById('bMU').textContent=fe(d.mpu)+'/u';
+  const nm=document.getElementById('bNM');nm.textContent=fe(d.nu);nm.style.color=d.nu>0?(d.mp>20?'var(--green)':'var(--orange)'):'var(--red)';
+  document.getElementById('beU').textContent=isFinite(d.be)?d.be:'∞';document.getElementById('beR').textContent=isFinite(d.beR)?fe(d.beR):'—';
+  document.getElementById('bRev').textContent=fe(d.rev);document.getElementById('bMkt').textContent=fe(d.mkt)+'/mo';
+  const bp=document.getElementById('bPro');bp.textContent=fs(d.profit);bp.style.color=d.profit>=0?'var(--green)':'var(--red)';
+  document.getElementById('bROI').textContent=d.roi.toFixed(1)+'%';
+}
+function doAnalyze(){
+  const pv=parseFloat(document.getElementById('price').value),cv=parseFloat(document.getElementById('cost').value);
+  if(!pv||pv<=0){shake('price');return;}if(!cv||cv<=0){shake('cost');return;}if(!canDo()){showModal();return;}
+  const btns=[document.getElementById('anaBtn'),document.getElementById('stickyBtn')];
+  btns.forEach(b=>{if(!b)return;b.disabled=true;b.style.opacity='.75';b.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .7s linear infinite;vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="10" stroke-dasharray="20 42" stroke-linecap="round"/></svg>Analyzing…';});
+  setTimeout(()=>{const d=calc();BR=d;if(!isPro())incN();document.getElementById('emptySt').style.display='none';document.getElementById('resDiv').style.display='block';render(d);['slP','slC','slV','slA'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=0;});btns.forEach(b=>{if(!b)return;b.style.opacity='';});refreshUI();if(window.innerWidth<860)setTimeout(()=>document.getElementById('resDiv').scrollIntoView({behavior:'smooth',block:'start'}),110);},380);
+}
+function simCalc(){if(!BR)return;const pa=+document.getElementById('slP').value||0,ca=+document.getElementById('slC').value||0,va=+document.getElementById('slV').value||0,aa=+document.getElementById('slA').value||0,bp=+document.getElementById('price').value||0,bc=+document.getElementById('cost').value||0,bv=Math.max(1,+document.getElementById('volume').value||1);document.getElementById('slPV').textContent=(pa>=0?'+':'')+pa+'€';document.getElementById('slCV').textContent=(ca>=0?'+':'')+ca+'€';document.getElementById('slVV').textContent=(va>=0?'+':'')+va+'%';document.getElementById('slAV').textContent=(aa>=0?'+':'')+aa+'€';const sim=calc({price:bp+pa,cost:bc+ca,vol:Math.max(1,Math.round(bv*(1+va/100))),mktB:aa}),cl=sim.sc>=70?'var(--green)':sim.sc>=50?'var(--orange)':'var(--red)';document.getElementById('sP').textContent=fs(sim.profit);document.getElementById('sP').style.color=(sim.profit-BR.profit)>=0?'var(--green)':'var(--red)';document.getElementById('sM').textContent=sim.mp.toFixed(1)+'%';document.getElementById('sM').style.color=(sim.mp-BR.mp)>=0?'var(--green)':'var(--red)';document.getElementById('sS').textContent=sim.sc+'/100';document.getElementById('sS').style.color=cl;}
+function applySimValues(){const pa=+document.getElementById('slP').value||0,ca=+document.getElementById('slC').value||0,va=+document.getElementById('slV').value||0,bp=+document.getElementById('price').value||0,bc=+document.getElementById('cost').value||0,bv=Math.max(1,+document.getElementById('volume').value||1);document.getElementById('price').value=(bp+pa).toFixed(2);document.getElementById('cost').value=(bc+ca).toFixed(2);document.getElementById('volume').value=Math.max(1,Math.round(bv*(1+va/100)));['slP','slC','slV','slA'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=0;});doAnalyze();}
+function tColl(el){const c=typeof el==='string'?document.getElementById(el):el;if(c)c.classList.toggle('open');}
+function shake(id){const el=document.getElementById(id);if(!el)return;el.style.borderColor='var(--red)';el.style.boxShadow='0 0 0 3px rgba(239,68,68,.14)';el.focus();setTimeout(()=>{el.style.borderColor='';el.style.boxShadow='';},2000);}
+</script>
+</body>
+</html>
